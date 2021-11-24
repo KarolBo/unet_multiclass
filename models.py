@@ -17,7 +17,7 @@ def conv_block(x, num_filters):
 
 def build_unet(input_shape, num_of_classes):
     num_filters = [96, 128, 160, 192]
-    inputs = Input((input_shape[0], input_shape[1], 1))  # grayscale
+    inputs = Input((input_shape[0], input_shape[1], 1))
 
     skip_x = []
     x = inputs
@@ -46,6 +46,6 @@ def build_unet(input_shape, num_of_classes):
     # Output
     x = Dropout(0.33)(x)
     x = Conv2D(num_of_classes, (1, 1), padding="same")(x)
-    x = Activation(activation="sigmoid")(x)
+    x = Activation(activation="softmax")(x)
 
     return Model(inputs, x)

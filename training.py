@@ -16,7 +16,8 @@ import matplotlib.pyplot as plt
 def train(model, train_data, test_data, lr, epochs):
     opt = Adam(lr)
     metrics = ["acc", iou]
-    model.compile(loss="binary_crossentropy", optimizer=opt, metrics=metrics)
+    model.compile(loss="categorical_crossentropy",
+                  optimizer=opt, metrics=metrics)
     callbacks = [
         ModelCheckpoint("unet_checkpoint_model.h5",
                         monitor='val_loss', verbose=1, mode='auto'),
@@ -41,19 +42,19 @@ def predict(model, img_path, input_size):
 if __name__ == '__main__':
     # Macroparameters
     CLASSES = 3
-    BATCH_SIZE = 1
-    EPOCHS = 1
+    BATCH_SIZE = 4
+    EPOCHS = 5
     IMG_SIZE = (256, 256)
     learning_rate = 1e-3
     dropout = 9 * [0.25]
     weight_zeros = 1
     weight_ones = 1
     aug_dict = {
-        'width_shift_range': 0.05,
-        'height_shift_range': 0.05,
-        'zoom_range': 0.001,
+        'width_shift_range': 0.0,
+        'height_shift_range': 0.0,
+        'zoom_range': 0.01,
         'horizontal_flip': True,
-        'rotation_range': 30
+        'rotation_range': 0
     }
 
     train_generator = MyGenerator(BATCH_SIZE, 'data', 'images',
